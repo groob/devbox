@@ -12,7 +12,7 @@ run apt-get install -y pkg-config
 run apt-get install -y cmake
 run apt-get install -y build-essential
 run apt-get install -y tcpdump
-run apt-get install -y screen
+run apt-get install -y tmux
 
 # Install go
 run curl https://go.googlecode.com/files/go1.2.1.linux-amd64.tar.gz | tar -C /usr/local -zx
@@ -28,8 +28,6 @@ env PKG_CONFIG_PATH /home/dev/lib/pkgconfig
 env LD_LIBRARY_PATH /home/dev/lib
 env GOPATH /home/dev/go:$GOPATH
 
-run go get github.com/dotcloud/gordon/pulls
-
 # Create a shared data volume
 # We need to create an empty file, otherwise the volume will
 # belong to root.
@@ -41,8 +39,6 @@ volume /var/shared
 
 workdir /home/dev
 env HOME /home/dev
-add vimrc /home/dev/.vimrc
-add vim /home/dev/.vim
 add bash_profile /home/dev/.bash_profile
 add gitconfig /home/dev/.gitconfig
 
