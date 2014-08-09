@@ -7,3 +7,4 @@ go
 lib
 include
 .vim/.netrwhist
+.vim/bundle/
