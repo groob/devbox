@@ -22,6 +22,10 @@ env PATH /usr/local/go/bin:$PATH
 # Setup home environment
 run useradd dev
 run mkdir /home/dev && chown -R dev: /home/dev
+
+# grab the latest dotfiles
+git clone https://github.com/groob/devbox.git /home/dev
+
 run mkdir -p /home/dev/go /home/dev/bin /home/dev/lib /home/dev/include
 env PATH /home/dev/bin:$PATH
 env PKG_CONFIG_PATH /home/dev/lib/pkgconfig
@@ -39,13 +43,12 @@ volume /var/shared
 
 workdir /home/dev
 env HOME /home/dev
-add bash_profile /home/dev/.bash_profile
-add gitconfig /home/dev/.gitconfig
 
 # Link in shared parts of the home directory
 run ln -s /var/shared/.ssh
 run ln -s /var/shared/.bash_history
 run ln -s /var/shared/.maintainercfg
+
 
 run chown -R dev: /home/dev
 user dev
