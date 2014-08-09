@@ -6,3 +6,4 @@ bin
 go
 lib
 include
+.vim/.netrwhist

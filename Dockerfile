@@ -25,7 +25,7 @@ run mkdir /home/dev && chown -R dev: /home/dev
 
 # grab the latest dotfiles
 run git clone https://github.com/groob/devbox.git /home/dev
-
+git clone https://github.com/gmarik/Vundle.vim.git /home/dev/.vim/bundle/Vundle.vim
 run mkdir -p /home/dev/go /home/dev/bin /home/dev/lib /home/dev/include
 env PATH /home/dev/bin:$PATH
 env PKG_CONFIG_PATH /home/dev/lib/pkgconfig
