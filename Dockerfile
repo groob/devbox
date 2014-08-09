@@ -20,7 +20,7 @@ env GOROOT /usr/local/go
 env PATH /usr/local/go/bin:$PATH
 
 # Setup home environment
-run useradd dev
+run useradd -u 500 dev
 run mkdir /home/dev && chown -R dev: /home/dev
 
 # grab the latest dotfiles
