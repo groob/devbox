@@ -18,7 +18,6 @@ endif
 autocmd BufEnter * :call NumberToggle()
 
 " ================ Indentation ======================
-
 set autoindent
 set smartindent
 set smarttab
@@ -31,6 +30,5 @@ filetype plugin on
 filetype indent on
 
 " Display tabs and trailing spaces visually
-
 set nowrap       "Don't wrap lines
 set linebreak    "Wrap lines at convenient points
