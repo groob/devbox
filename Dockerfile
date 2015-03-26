@@ -15,7 +15,7 @@ run apt-get install -y tcpdump
 run apt-get install -y tmux
 
 # Install go
-run curl https://go.googlecode.com/files/go1.2.1.linux-amd64.tar.gz | tar -C /usr/local -zx
+run curl https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz | tar -C /usr/local -zx
 env GOROOT /usr/local/go
 env PATH /usr/local/go/bin:$PATH
 
