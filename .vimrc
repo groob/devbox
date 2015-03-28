@@ -32,3 +32,4 @@ filetype indent on
 " Display tabs and trailing spaces visually
 set nowrap       "Don't wrap lines
 set linebreak    "Wrap lines at convenient points
+let g:go_fmt_command = "goimports"
