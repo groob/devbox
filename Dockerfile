@@ -53,3 +53,4 @@ run ln -s /var/shared/.maintainercfg
 run chown -R dev: /home/dev
 user dev
 run vim +PluginInstall +qall
+CMD ["/bin/bash", "--login"]
