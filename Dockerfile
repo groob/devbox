@@ -9,8 +9,6 @@ RUN apt-get update && apt-get install -y \
 	&& git clone https://github.com/gmarik/Vundle.vim.git /home/dev/.vim/bundle/Vundle.vim \
 	&& mkdir -p /home/dev/go/src \
 	&& mkdir -p /var/shared/ \
-	&& chown -R dev:dev /var/shared \
-	&& chown -R dev:dev /home/dev  \
 	&& go get -u github.com/derekparker/delve/cmd/dlv \
 	&& go get -u github.com/nsf/gocode \
 	&& go get -u golang.org/x/tools/cmd/goimports \
@@ -25,8 +23,12 @@ WORKDIR /home/dev
 ENV HOME /home/dev
 ENV GOPATH /home/dev/go:$GOPATH
 ENV PATH $GOPATH/bin:$PATH
-USER dev
 COPY . /home/dev
+
+RUN chown -R dev:dev /var/shared \
+	&& chown -R dev:dev /home/dev 
+
+USER dev
 
 RUN ln -s /var/shared/.ssh \
 	&& ln -s /var/shared/.bash_history \
