@@ -1,56 +1,36 @@
-from ubuntu:14.04
+FROM golang:1.4
 
-run apt-get update -y
-run apt-get install -y mercurial
-run apt-get install -y git
-run apt-get install -y python
-run apt-get install -y curl
-run apt-get install -y vim
-run apt-get install -y strace
-run apt-get install -y diffstat
-run apt-get install -y pkg-config
-run apt-get install -y cmake
-run apt-get install -y build-essential
-run apt-get install -y tcpdump
-run apt-get install -y tmux
+RUN apt-get update && apt-get install -y \
+	curl vim mercurial git tree \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+	&& useradd -u 1000 dev \
+	&& mkdir -p /home/dev \
+	&& git clone https://github.com/gmarik/Vundle.vim.git /home/dev/.vim/bundle/Vundle.vim \
+	&& mkdir -p /home/dev/go/src \
+	&& mkdir -p /var/shared/ \
+	&& chown -R dev:dev /var/shared \
+	&& chown -R dev:dev /home/dev  \
+	&& go get -u github.com/derekparker/delve/cmd/dlv \
+	&& go get -u github.com/nsf/gocode \
+	&& go get -u golang.org/x/tools/cmd/goimports \
+	&& go get -u github.com/rogpeppe/godef \
+	&& go get -u golang.org/x/tools/cmd/oracle \
+	&& go get -u golang.org/x/tools/cmd/gorename \
+	&& go get -u github.com/golang/lint/golint \
+	&& go get -u github.com/kisielk/errcheck \
+	&& go get -u github.com/jstemmer/gotags 
 
-# Install go
-run curl https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz | tar -C /usr/local -zx
-env GOROOT /usr/local/go
-env PATH /usr/local/go/bin:$PATH
+WORKDIR /home/dev
+ENV HOME /home/dev
+ENV GOPATH /home/dev/go:$GOPATH
+ENV PATH $GOPATH/bin:$PATH
+USER dev
+COPY . /home/dev
 
-# Setup home environment
-run useradd -u 500 dev
-run mkdir /home/dev && chown -R dev: /home/dev
+RUN ln -s /var/shared/.ssh \
+	&& ln -s /var/shared/.bash_history \
+	&& ln -s /var/shared/.maintainercfg \
+	&& vim +PluginInstall +qall 
 
-# grab the latest dotfiles
-run git clone https://github.com/groob/devbox.git /home/dev
-run git clone https://github.com/gmarik/Vundle.vim.git /home/dev/.vim/bundle/Vundle.vim
-run mkdir -p /home/dev/go /home/dev/bin /home/dev/lib /home/dev/include
-env PATH /home/dev/bin:$PATH
-env PKG_CONFIG_PATH /home/dev/lib/pkgconfig
-env LD_LIBRARY_PATH /home/dev/lib
-env GOPATH /home/dev/go:$GOPATH
-
-# Create a shared data volume
-# We need to create an empty file, otherwise the volume will
-# belong to root.
-# This is probably a Docker bug.
-run mkdir /var/shared/
-run touch /var/shared/placeholder
-run chown -R dev:dev /var/shared
-volume /var/shared
-
-workdir /home/dev
-env HOME /home/dev
-
-# Link in shared parts of the home directory
-run ln -s /var/shared/.ssh
-run ln -s /var/shared/.bash_history
-run ln -s /var/shared/.maintainercfg
-
-
-run chown -R dev: /home/dev
-user dev
-run vim +PluginInstall +qall
-CMD ["/bin/bash", "--login"]
+CMD ["/bin/bash"]
